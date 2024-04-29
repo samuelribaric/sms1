@@ -25,18 +25,18 @@ def my_train_test_split(*datasets):
     '''
     return train_test_split(*datasets, test_size=0.3, random_state=101)
 
-def train_classifier(classifier, X_train, y_train):
-    classifier.fit(X_train, y_train)
+def train_classifier(classifier, x_train, y_train):
+    classifier.fit(x_train, y_train)
 
-def predict_labels(classifier, X_test):
-    return classifier.predict(X_test)
+def predict_labels(classifier, x_test):
+    return classifier.predict(x_test)
 
 def main():
 
     raw_data = _load_data()
     preprocessed_data = load('output/preprocessed_data.joblib')
 
-    (X_train, X_test,
+    (x_train, x_test,
      y_train, y_test,
      _, test_messages) = my_train_test_split(preprocessed_data,
                                              raw_data['label'],
@@ -57,8 +57,8 @@ def main():
     # save misclassified messages
     file = open('output/misclassified_msgs.txt', 'a', encoding='utf-8')
     for key, value in classifiers.items():
-        train_classifier(value, X_train, y_train)
-        pred[key] = predict_labels(value, X_test)
+        train_classifier(value, x_train, y_train)
+        pred[key] = predict_labels(value, x_test)
         pred_scores[key] = [accuracy_score(y_test, pred[key])]
         print('\n############### ' + key + ' ###############\n')
         print(classification_report(y_test, pred[key]))
